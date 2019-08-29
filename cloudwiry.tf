@@ -188,7 +188,7 @@ resource "aws_iam_policy" "cloudwiry" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "cloudwiry_role_policy_attachment" {
-  role       = "${aws_iam_role.cloudwiry.name}"
-  policy_arn = "${aws_iam_policy.cloudwiry.arn}"
-}
+#resource "aws_iam_role_policy_attachment" "cloudwiry_role_policy_attachment" {
+#  role       = "${aws_iam_role.cloudwiry.name}"
+#  policy_arn = "${aws_iam_policy.cloudwiry.arn}"
+3}
