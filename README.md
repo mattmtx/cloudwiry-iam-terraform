@@ -5,10 +5,10 @@ Terraform config for onboarding with Cloudwiry.com
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| enable\_cloudwiry\_autopilot | When set to true, Cloudwiry role is granted permissions to execute approved recommendations | string | `"false"` | no |
-| external\_id | External-Id provided by Cloudwiry | string | n/a | yes |
-| role\_name | IAM Role and Policy Name | string | `"Cloudwiry-Role"` | no |
-| s3\_cur\_bucket | Cost & Usage Report S3 bucket name - ex. company-billing - only required in Master Payer account | string | n/a | yes |
+| cloudwiry\_autopilot\_enabled | When set to true, Cloudwiry role is granted permissions to execute approved recommendations | string | `"false"` | no |
+| cloudwiry\_external\_id | External-Id provided by Cloudwiry | string | n/a | yes |
+| cloudwiry\_role\_name | IAM Role and Policy Name | string | `"Cloudwiry-Role"` | no |
+| s3\_cur\_bucket | Cost & Usage Report S3 bucket name - ex. company-billing - only required in Master Payer account | string | `""` | no |
 
 ## Outputs
 
@@ -58,5 +58,5 @@ The Inputs and Outputs sections should be generated using [terraform-docs](https
 
 Generate them like so:
 ```bash
-terraform-docs markdown terraform/ | cat -s | ghead -n -1
+terraform-docs markdown ./ | cat -s | ghead -n -1
 ```

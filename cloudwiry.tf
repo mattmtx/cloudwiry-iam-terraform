@@ -117,7 +117,7 @@ data "template_file" "recommendations_policy" {
 }POLICY
 }
 
-data "template_file" "cloudwiry_autopilot_policy" {
+data "template_file" "autopilot_policy" {
   template = <<POLICY
 {
     "Sid": "CloudwiryAutopilot",
@@ -160,7 +160,7 @@ resource "aws_iam_role" "cloudwiry" {
             "Action": "sts:AssumeRole",
             "Condition": {
                 "StringEquals": {
-                    "sts:ExternalId": "${var.external_id}"
+                    "sts:ExternalId": "${var.cloudwiry_external_id}"
                 }
             }
         }
