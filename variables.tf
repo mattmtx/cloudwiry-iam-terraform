@@ -9,10 +9,11 @@ variable "cloudwiry_external_id" {
 
 variable "s3_cur_bucket" {
   description = "Cost & Usage Report S3 bucket name - ex. company-billing - only required in Master Payer account"
-  default = ""
+  default     = ""
 }
 
 variable "cloudwiry_autopilot_enabled" {
   description = "When set to true, Cloudwiry role is granted permissions to execute approved recommendations"
   default     = false
 }
+

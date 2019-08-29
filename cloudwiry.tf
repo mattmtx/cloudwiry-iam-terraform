@@ -17,8 +17,10 @@ data "template_file" "s3_cur_bucket_policy" {
     ]
 }
 POLICY
-  vars {
-    s3_cur_bucket = "${var.s3_cur_bucket}"
+
+
+  vars = {
+    s3_cur_bucket = var.s3_cur_bucket
   }
 }
 
@@ -114,11 +116,13 @@ data "template_file" "recommendations_policy" {
     "Resource": [
         "*"
     ]
-}POLICY
+}
+POLICY
+
 }
 
 data "template_file" "autopilot_policy" {
-  template = <<POLICY
+template = <<POLICY
 {
     "Sid": "CloudwiryAutopilot",
     "Effect": "Allow",
@@ -143,12 +147,13 @@ data "template_file" "autopilot_policy" {
     ]
 }
 POLICY
+
 }
 
 resource "aws_iam_role" "cloudwiry" {
-  name = "${var.cloudwiry_role_name}"
+name = var.cloudwiry_role_name
 
-  assume_role_policy = <<POLICY
+assume_role_policy = <<POLICY
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -167,6 +172,7 @@ resource "aws_iam_role" "cloudwiry" {
     ]
 }
 POLICY
+
 }
 
 data "template_file" "foo" {
@@ -174,7 +180,7 @@ data "template_file" "foo" {
 }
 
 resource "aws_iam_policy" "cloudwiry" {
-  name = "${var.cloudwiry_role_name}"
+  name = var.cloudwiry_role_name
 
   policy = <<POLICY
 {
@@ -186,9 +192,11 @@ resource "aws_iam_policy" "cloudwiry" {
     ]
 }
 POLICY
+
 }
 
 resource "aws_iam_role_policy_attachment" "cloudwiry_role_policy_attachment" {
-  role       = "${aws_iam_role.cloudwiry.name}"
-  policy_arn = "${aws_iam_policy.cloudwiry.arn}"
+  role = aws_iam_role.cloudwiry.name
+  policy_arn = aws_iam_policy.cloudwiry.arn
 }
+
