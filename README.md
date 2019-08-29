@@ -36,7 +36,7 @@ Then you can call the terraform-cloudwiry-iam module:
 ```
 module "cloudwiry_iam_role" {
   source = "github.com/mattmtx/terraform-cloudwiry-iam"
-  external-id = "CW_abc123"
+  cloudwiry_external_id = "CW_abc123"
   s3_cur_bucket = "company-billing"
   cloudwiry_autopilot_enabled = true
 }

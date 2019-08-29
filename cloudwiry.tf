@@ -1,4 +1,4 @@
-data "template_file" "cur_bucket_policy" {
+data "template_file" "s3_cur_bucket_policy" {
   template = <<POLICY
 {
     "Sid": "CloudwiryCUR",
@@ -182,7 +182,7 @@ resource "aws_iam_policy" "cloudwiry" {
     "Statement": [
         ${data.template_file.recommendations_policy.rendered}
         ${var.s3_cur_bucket == "" ? "" : format(",%s", data.template_file.s3_cur_bucket_policy.rendered)}
-        ${var.enable_cloudwiry_autopilot == false ? "" : format(",%s", data.template_file.autopilot_policy.rendered)}
+        ${var.cloudwiry_autopilot_enabled == false ? "" : format(",%s", data.template_file.autopilot_policy.rendered)}
     ]
 }
 POLICY
