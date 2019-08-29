@@ -31,7 +31,7 @@ data "template_file" "recommendations_policy" {
         "aws-portal:ViewBilling",
         "aws-portal:ViewUsage",
         "autoscaling:Describe*",
-        "ce:*"
+        "ce:*",
         "cloudformation:Get*",
         "cloudformation:List*",
         "cloudformation:Describe*",
@@ -107,7 +107,7 @@ data "template_file" "recommendations_policy" {
         "sns:List*",
         "sqs:GetQueueAttributes",
         "sqs:ListQueues",
-        "storagegateway:Describe*"
+        "storagegateway:Describe*",
         "storagegateway:List*",
         "workspaces:Describe*"
     ],
@@ -188,7 +188,7 @@ resource "aws_iam_policy" "cloudwiry" {
 POLICY
 }
 
-#resource "aws_iam_role_policy_attachment" "cloudwiry_role_policy_attachment" {
-#  role       = "${aws_iam_role.cloudwiry.name}"
-#  policy_arn = "${aws_iam_policy.cloudwiry.arn}"
-#}
+resource "aws_iam_role_policy_attachment" "cloudwiry_role_policy_attachment" {
+  role       = "${aws_iam_role.cloudwiry.name}"
+  policy_arn = "${aws_iam_policy.cloudwiry.arn}"
+}
