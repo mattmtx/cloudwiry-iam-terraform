@@ -1,3 +1,5 @@
+# Access to read the Cost and Usage Reports
+# https://aws.amazon.com/aws-cost-management/aws-cost-and-usage-reporting/
 data "template_file" "s3_cur_bucket_policy" {
   template = <<POLICY
 {
@@ -18,100 +20,32 @@ data "template_file" "s3_cur_bucket_policy" {
 }
 POLICY
 
-
   vars = {
     s3_cur_bucket = var.s3_cur_bucket
   }
 }
 
+# ce - access Cost and Usage data available in the API
+# cloudwatch - access historical usage by instance type
+# cur - describe cost and usage report settings
+# ec2 - check the current instance type and status
+# ec2:GetReservedInstancesExchangeQuote - Generate realtime quotes for RI recommendations
 data "template_file" "recommendations_policy" {
   template = <<POLICY
 {
     "Sid": "CloudwiryRecommendations",
     "Effect": "Allow",
     "Action": [
-        "aws-portal:ViewBilling",
-        "aws-portal:ViewUsage",
-        "autoscaling:Describe*",
         "ce:*",
-        "cloudformation:Get*",
-        "cloudformation:List*",
-        "cloudformation:Describe*",
-        "cloudfront:Get*",
-        "cloudfront:List*",
-        "cloudtrail:Get*",
-        "cloudtrail:DescribeTrails",
-        "cloudtrail:ListTags",
         "cloudwatch:Describe*",
         "cloudwatch:Get*",
         "cloudwatch:List*",
-        "config:Get*",
-        "config:Describe*",
-        "config:Deliver*",
-        "config:List*",
-        "cur:Describe*",
-        "cur:PutReportDefinition",
-        "dms:Describe*",
-        "dynamodb:Describe*",
-        "dynamodb:List*",
-        "elasticloadbalancing:Describe*",
-        "ec2:Describe*",
-        "ec2:GetReservedInstancesExchangeQuote",
-        "ecs:Describe*",
-        "ecs:List*",
-        "elasticache:Describe*",
-        "elasticache:ListTagsForResource",
-        "elasticbeanstalk:Check*",
-        "elasticbeanstalk:Describe*",
-        "elasticbeanstalk:List*",
-        "elasticbeanstalk:RequestEnvironmentInfo",
-        "elasticbeanstalk:RetrieveEnvironmentInfo",
-        "elasticloadbalancing:Describe*",
-        "elasticmapreduce:Describe*",
-        "elasticmapreduce:List*",
-        "elasticfilesystem:DescribeFileSystems",
-        "elasticfilesystem:DescribeTags",
-        "es:Describe*",
-        "es:List*",
-        "firehose:ListDeliveryStreams",
-        "firehose:DescribeDeliveryStream",
-        "iam:GenerateCredentialReport",
-        "iam:Get*",
-        "iam:List*",
-        "kinesis:Describe*",
-        "kinesis:List*",
-        "kms:ListKeys",
-        "lambda:List*",
-        "logs:Describe*",
-        "organizations:ListAccounts",
-        "redshift:Describe*",
-        "route53:Get*",
-        "route53:List*",
-        "rds:Describe*",
-        "rds:ListTagsForResource",
-        "s3:List*",
-        "s3:GetAnalyticsConfiguration",
-        "s3:GetLifecycleConfiguration",
-        "s3:GetBucketAcl",
-        "s3:GetBucketPolicy",
-        "s3:GetBucketTagging",
-        "s3:GetBucketLocation",
-        "s3:GetBucketLogging",
-        "s3:GetBucketVersioning",
-        "s3:GetBucketWebsite",
-        "sagemaker:Describe*",
-        "sagemaker:List*",
-        "sdb:GetAttributes",
-        "sdb:List*",
-        "ses:Get*",
-        "ses:List*",
-        "sns:Get*",
-        "sns:List*",
-        "sqs:GetQueueAttributes",
-        "sqs:ListQueues",
-        "storagegateway:Describe*",
-        "storagegateway:List*",
-        "workspaces:Describe*"
+        "cur:DescribeReportDefinitions",
+        "ec2:DescribeInstances",
+        "ec2:DescribeInstanceStatus",
+        "ec2:DescribeRegions",
+        "ec2:DescribeTags",
+        "ec2:GetReservedInstancesExchangeQuote"
     ],
     "Resource": [
         "*"
@@ -121,26 +55,18 @@ POLICY
 
 }
 
+# ec2:PurchaseReservedInstancesOffering - purchase new EC2 RIs
+# ec2:AcceptReservedInstancesExchangeQuote - perform CRI exchanges
+# ec2:ModifyReservedInstances - Split and Merge existing RIs (no billing impact)
 data "template_file" "autopilot_policy" {
 template = <<POLICY
 {
     "Sid": "CloudwiryAutopilot",
     "Effect": "Allow",
     "Action": [
-        "s3:PutAnalyticsConfiguration",
-        "s3:PutLifecycleConfiguration",
         "ec2:PurchaseReservedInstancesOffering",
         "ec2:AcceptReservedInstancesExchangeQuote",
-        "ec2:GetReservedInstancesExchangeQuote",
-        "ec2:ModifyReservedInstances",
-        "ec2:CreateTags",
-        "ec2:CreateSnapshot",
-        "ec2:DeleteSnapshot",
-        "ec2:DeleteVolume",
-        "ec2:StartInstances",
-        "ec2:StopInstances",
-        "ec2:RebootInstances",
-        "ec2:releaseAddress"
+        "ec2:ModifyReservedInstances"
     ],
     "Resource": [
         "*"
@@ -151,7 +77,7 @@ POLICY
 }
 
 resource "aws_iam_role" "cloudwiry" {
-name = var.cloudwiry_role_name
+name = "Share-Cloudwiry-Role"
 
 assume_role_policy = <<POLICY
 {
@@ -175,12 +101,8 @@ POLICY
 
 }
 
-data "template_file" "foo" {
-  template = "bar"
-}
-
 resource "aws_iam_policy" "cloudwiry" {
-  name = var.cloudwiry_role_name
+  name = "Share-Cloudwiry-Role"
 
   policy = <<POLICY
 {

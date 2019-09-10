@@ -7,19 +7,19 @@ Terraform config for onboarding with Cloudwiry.com
 |------|-------------|:----:|:-----:|:-----:|
 | cloudwiry\_autopilot\_enabled | When set to true, Cloudwiry role is granted permissions to execute approved recommendations | string | `"false"` | no |
 | cloudwiry\_external\_id | External-Id provided by Cloudwiry | string | n/a | yes |
-| cloudwiry\_role\_name | IAM Role and Policy Name | string | `"Cloudwiry-Role"` | no |
 | s3\_cur\_bucket | Cost & Usage Report S3 bucket name - ex. company-billing - only required in Master Payer account | string | `""` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| cloudwiry\_external\_id |  |
-| cloudwiry\_policy\_arn |  |
-| cloudwiry\_role\_arn |  |
+| cloudwiry\_external\_id | External-Id provided by Cloudwiry |
+| cloudwiry\_policy\_arn | ARN of Cloudwiry policy created |
+| cloudwiry\_role\_arn | ARN of Cloudwiry role created |
+| cloudwiry\_role\_name | Name of Cloudwiry role created |
 
 ## Usage
-A Cloudwiry Account Manager will provide the required external-id specific to your Cloudwiry account.  
+A Cloudwiry Account Manager will provide the required external-id specific to your Cloudwiry account.
 
 It can be passed in directly, if calling terraform-cloudwiry-iam as a module.
 OR

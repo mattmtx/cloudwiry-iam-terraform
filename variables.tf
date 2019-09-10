@@ -1,8 +1,3 @@
-variable "cloudwiry_role_name" {
-  description = "IAM Role and Policy Name"
-  default     = "Cloudwiry-Role"
-}
-
 variable "cloudwiry_external_id" {
   description = "External-Id provided by Cloudwiry"
 }
@@ -13,7 +8,7 @@ variable "s3_cur_bucket" {
 }
 
 variable "cloudwiry_autopilot_enabled" {
-  description = "When set to true, Cloudwiry role is granted permissions to execute approved recommendations"
+  description = "When set to true, Cloudwiry role is granted permissions to execute EC2 RI Exchange Operations"
   default     = false
 }
 
